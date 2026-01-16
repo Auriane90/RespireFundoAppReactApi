@@ -6,10 +6,10 @@ export default class Sugestao extends BaseModel {
   declare id: number
 
   @column()
-  declare pergunta: string
+  declare titulo: string
 
   @column()
-  declare resposta: string
+  declare descricao: string
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

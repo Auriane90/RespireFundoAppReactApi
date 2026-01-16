@@ -1,8 +1,9 @@
 import type { HttpContext } from '@adonisjs/core/http'
+import app from '@adonisjs/core/services/app'
 import Denuncia from '#models/denuncia'
 
 export default class DenunciasController {
-    // LISTAR TODAS AS DENÚNCIAS
+  // LISTAR TODAS AS DENÚNCIAS
   async index() {
     return Denuncia.all()
   }
@@ -14,11 +15,33 @@ export default class DenunciasController {
 
   // CRIAR DENÚNCIA
   async store({ request, response }: HttpContext) {
-    const dados = request.only(['titulo', 'image', 'descricao'])
+    const titulo = request.input('titulo')
+    const descricao = request.input('descricao')
 
-    const denuncia = await Denuncia.create(dados)
+    const image = request.file('image', {
+      size: '5mb',
+      extnames: ['jpg', 'png', 'jpeg', 'webp'],
+    })
 
-    return response.created(denuncia)
+    let imagePath: string | null = null
+
+    if (image) {
+      const fileName = `${Date.now()}.${image.extname}`
+
+      await image.move(app.makePath('uploads/denuncias'), {
+        name: fileName,
+      })
+
+      imagePath = `uploads/denuncias/${fileName}`
+    }
+
+    const evento = await Denuncia.create({
+      titulo,
+      descricao,
+      image: imagePath,
+    })
+
+    return response.created(evento)
   }
 
   // ATUALIZAR DENÚNCIA

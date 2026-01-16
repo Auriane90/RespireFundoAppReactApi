@@ -14,7 +14,7 @@ export default class SugestaosController {
 
   // CRIAR SUGESTÃO
   async store({ request, response }: HttpContext) {
-    const dados = request.only(['pergunta', 'resposta'])
+    const dados = request.only(['titulo', 'descricao'])
 
     const sugestao = await Sugestao.create(dados)
 
@@ -25,7 +25,7 @@ export default class SugestaosController {
   async update({ params, request }: HttpContext) {
     const sugestao = await Sugestao.findOrFail(params.id)
 
-    const dados = request.only(['pergunta', 'resposta'])
+    const dados = request.only(['titulo', 'descricao'])
 
     sugestao.merge(dados)
     await sugestao.save()

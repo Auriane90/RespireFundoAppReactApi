@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import User from './user.js'
 
 export default class Denuncia extends BaseModel {
   @column({ isPrimary: true })
@@ -9,10 +11,31 @@ export default class Denuncia extends BaseModel {
   declare titulo: string
 
   @column()
-  declare image: string
+  declare descricao: string
+
+  @column({ columnName: 'imagem_url' })
+  declare imagemUrl: string | null
+
+  @column({ columnName: 'localizacao_texto' })
+  declare localizacaoTexto: string | null
 
   @column()
-  declare descricao: string
+  declare latitude: number | null
+
+  @column()
+  declare longitude: number | null
+
+  @column({ columnName: 'usuario_id' })
+  declare userId: number
+
+  @column()
+  declare status_moderacao: 'pendente' | 'aprovado' | 'resolvido'
+
+  // 🔗 Relacionamento
+  @belongsTo(() => User, {
+    foreignKey: 'userId',
+  })
+  declare user: BelongsTo<typeof User>
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

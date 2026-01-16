@@ -14,6 +14,12 @@ export default class Evento extends BaseModel {
   @column()
   declare descricao: string
 
+  @column()
+  declare data_evento: Date
+
+  @column()
+  declare vaga_total: number
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
