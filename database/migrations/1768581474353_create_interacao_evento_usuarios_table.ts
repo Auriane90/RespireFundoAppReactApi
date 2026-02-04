@@ -11,7 +11,7 @@ export default class extends BaseSchema {
         .integer('user_id')
         .unsigned()
         .references('id')
-        .inTable('user')
+        .inTable('users')
         .onDelete('CASCADE')
 
       table
@@ -25,9 +25,6 @@ export default class extends BaseSchema {
       table.boolean('notificacao_ativa').defaultTo(false)
 
       table.timestamps(true)
-
-      table.timestamp('created_at')
-      table.timestamp('updated_at')
     })
   }
 

@@ -2,6 +2,7 @@ import router from '@adonisjs/core/services/router'
 import EventosController from '#controllers/eventos_controller'
 import DenunciasController from '#controllers/denuncias_controller'
 import SugestaosController from '#controllers/sugestaos_controller'
+import UsersController from '#controllers/users_controller'
 import { HttpContext } from '@adonisjs/core/http'
 import app from '@adonisjs/core/services/app'
 import fs from 'fs'
@@ -28,3 +29,7 @@ router.get('/uploads/*', async ({ request, response }: HttpContext) => {
 router.resource('denuncias', DenunciasController).apiOnly()
 
 router.resource('sugestoes', SugestaosController).apiOnly()
+
+router.post('/login', [UsersController, 'login'])
+
+router.resource('users', UsersController).apiOnly()
